@@ -1,23 +1,10 @@
 import {Builder, Browser, By, until} from 'selenium-webdriver';
-import fs from "fs";
-import {expect, it, afterEach, beforeEach, test} from '@jest/globals';
-
+import {expect, afterEach, beforeEach, test} from '@jest/globals';
+import { Locator, LoginData } from './locators';
 jest.setTimeout(30000);
 
 describe("Login testing", ()=>{
     let driver;
-    const xpathForgetPasswordLink = "//form[@class='form_enter']/a[@class='forget_password']"
-    const xpathLoginLink = "//div[@id='kabinet']/div/div/a[@class='enter_link']";
-    const xpathLoginForm ='//form[contains(@class,"form_enter")]';
-    const xpathLoginInput ="//form[@class=\"form_enter\"and@name=\"login\"]/input[@class=\"form-control name_enter\"and@type=\"email\"]";
-    const xpathPasswordInput="//form[@class=\"form_enter\"and@name=\"login\"]/input[@class=\"form-control password_enter\"and@type=\"password\"]";
-    const xpathLoginButton ="//form[@class=\"form_enter\"and@name=\"login\"]/button[@class=\"submit_enter\"and@type=\"submit\"]";
-    const xpathRegisterLink = "//form[@class=\"form_enter\" and @name='login']/following-sibling::a[@class=\"registration\"]";
-    const xpathPaswFogottenForm ="//form[@name=\"password_forgotten\"]";
-    const xpathPaswFogottenInputEmail="//input[@id=\"inputEmail_address\"]";
-    const xpathPaswFogottenBackButton ="//form[@name=\"password_forgotten\"]/descendant::a[contains(@class,\"btn btn-primary\")]";
-    const xpathPaswFogottenContinueButton ="//form[@name=\"password_forgotten\"]/descendant::button[contains(@class,\"btn btn-primary\")]";
-    const emain = "mikhailenkomasha0@gmail.com";
 
     // beforeAll(async()=>{
     //     driver = await new Builder().forBrowser(Browser.CHROME).build();
@@ -38,39 +25,38 @@ describe("Login testing", ()=>{
         if(driver){
             await driver.quit();
         }
-    })
+    });
 
     test("validation of forms", async()=>{
-        let link = await driver.findElement(By.xpath(xpathLoginLink));
+        let link = await driver.findElement(By.xpath(Locator.xpathLoginLink));
         link.click();
         await driver.sleep(2000);
 
-        let loginForm = await driver.findElement(By.xpath(xpathLoginForm));
+        let loginForm = await driver.wait(until.elementIsVisible(driver.findElement(By.xpath(Locator.xpathLoginForm))), 2000);
         expect(await loginForm.getAttribute("name")).toBe("login");
-        expect(await loginForm.findElement(By.xpath(xpathLoginInput))).toBeTruthy();
-        expect(await loginForm.findElement(By.xpath(xpathPasswordInput))).toBeTruthy();
-        expect(await loginForm.findElement(By.xpath(xpathForgetPasswordLink))).toBeTruthy();
-        expect(await loginForm.findElement(By.xpath(xpathLoginButton))).toBeTruthy();
-        expect(await loginForm.findElement(By.xpath(xpathRegisterLink))).toBeTruthy();
+        expect(await loginForm.findElement(By.xpath(Locator.xpathLoginInput))).toBeTruthy();
+        expect(await loginForm.findElement(By.xpath(Locator.xpathPasswordInput))).toBeTruthy();
+        expect(await loginForm.findElement(By.xpath(Locator.xpathForgetPasswordLink))).toBeTruthy();
+        expect(await loginForm.findElement(By.xpath(Locator.xpathLoginButton))).toBeTruthy();
+        expect(await loginForm.findElement(By.xpath(Locator.xpathRegisterLink))).toBeTruthy();
 
-        await driver.findElement(By.xpath(xpathForgetPasswordLink)).click();
+        await driver.findElement(By.xpath(Locator.xpathForgetPasswordLink)).click();
         expect(await driver.getCurrentUrl()).toBe('https://demo.solomono.net/password_forgotten.php');
 
-        let paswwFoggotenForm = await driver.findElement(By.xpath(xpathPaswFogottenForm));
+        let paswwFoggotenForm = await driver.findElement(By.xpath(Locator.xpathPaswFogottenForm));
         expect(await paswwFoggotenForm.getAttribute("name")).toBe("password_forgotten");
-        expect(await paswwFoggotenForm.findElement(By.xpath(xpathPaswFogottenInputEmail))).toBeTruthy();
-        expect(await paswwFoggotenForm.findElement(By.xpath(xpathPaswFogottenBackButton))).toBeTruthy();
-        expect(await paswwFoggotenForm.findElement(By.xpath(xpathPaswFogottenContinueButton))).toBeTruthy();
+        expect(await paswwFoggotenForm.findElement(By.xpath(Locator.xpathPaswFogottenInputEmail))).toBeTruthy();
+        expect(await paswwFoggotenForm.findElement(By.xpath(Locator.xpathPaswFogottenBackButton))).toBeTruthy();
+        expect(await paswwFoggotenForm.findElement(By.xpath(Locator.xpathPaswFogottenContinueButton))).toBeTruthy();
     });
 
     test("password recovery script", async()=>{
-        await driver.findElement(By.xpath(xpathLoginLink)).click();
+        await driver.findElement(By.xpath(Locator.xpathLoginLink)).click();
         await driver.sleep(2000);
-        await driver.findElement(By.xpath(xpathForgetPasswordLink)).click();
+        await driver.findElement(By.xpath(Locator.xpathForgetPasswordLink)).click();
         expect(await driver.getCurrentUrl()).toBe('https://demo.solomono.net/password_forgotten.php');
-        await driver.findElement(By.xpath(xpathPaswFogottenInputEmail)).sendKeys(emain);
-        await driver.findElement(By.xpath(xpathPaswFogottenContinueButton)).click();
+        await driver.findElement(By.xpath(Locator.xpathPaswFogottenInputEmail)).sendKeys(LoginData.email);
+        await driver.findElement(By.xpath(Locator.xpathPaswFogottenContinueButton)).click();
         expect(await driver.getCurrentUrl()).toBe('https://demo.solomono.net/login.php');
-    })
-
-})
+    });
+});
