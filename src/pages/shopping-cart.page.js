@@ -18,13 +18,17 @@ export class ShoppingCartPage {
         return this.driver.findElement(By.xpath(this.xpathCart));
     }
 
-    async getNumberProductsInCart(number){
+    async isCartIsEmpty(){
+        return await this.driver.findElements(By.xpath(this.xpathDeleteProductFromCartButton));
+    }
+
+    async getNumberProductsInCart(){
         const cart = this.getCart();
         const result =  await cart.findElements(By.xpath(this.xpathProductInCart));
         return result.length;
     }
 
-    async getkMixerPrice(price){
+    async getkMixerPrice(){
         return await this.driver.findElement(By.xpath(this.xpathProductPriceInCart)).getText();
     }
 
@@ -51,9 +55,7 @@ export class ShoppingCartPage {
                 for(let i = productsInCart.length-1; i >= 0; i--){
                     productsInCart[i].click();
                     await this.driver.sleep(2000);
-                }
-        let productsInCartCheck = await cartCheck.findElements(By.xpath(this.xpathDeleteProductFromCartButton));
-        expect(productsInCartCheck.length).toBe(0);
+                }       
     }
 
     async closeCart(){

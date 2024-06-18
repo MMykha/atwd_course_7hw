@@ -1,6 +1,6 @@
 import {By, until} from 'selenium-webdriver';
 
-export class CheckoiutPage{
+export class CheckoutPage{
     constructor(driver){
         this.driver=driver;
         this.xpathCheckoutNameInput = "//div[@id=\"shippingAddress\"]/descendant::input[@name=\"shipping_firstname\"]"
@@ -39,7 +39,7 @@ export class CheckoiutPage{
         phoneInput.sendKeys(phone);
     }
 
-    async chooseCountry(country){
+    async chooseCountryUkraine(){
         await this.driver.findElement(By.xpath(this.xpathCheckoutCountrySelect)).click();
         const checkoutCountrySelect = await this.driver.wait(until.elementIsVisible(this.driver.findElement(By.xpath(this.xpathCheckoutCountryUkraineSelect))),2000);
         checkoutCountrySelect.click();
