@@ -1,4 +1,4 @@
-import {By, until} from 'selenium-webdriver';
+import {By, WebDriver, until} from 'selenium-webdriver';
 
 export class MainPage{
     constructor(driver){
@@ -11,41 +11,52 @@ export class MainPage{
         this.xpathUkrainianLanguage = "//div[contains(@class,\"language_select\")]/ul/li/a[contains(text(),\"Українська\")]";
         this.xpathUahCurrency = "//nav[@class=\"currency_select\"]/descendant::div[contains(@class,\"selectize-dropdown-content\")]/div[@data-value=\"UAH\"]";
         this.xpathOpenCartButton = "//div[@id=\"shopping_cart_box\"]/div/div[@class=\"img_basket popup_cart\"]/*";
+        this.xpathNavLaptops = "//div[@id=\"#all-categories\"]/descendant::a[text()=\"Ноутбуки\"]";
+        this.xpathCloseCartButton = "//div[@id=\"modal_cart_popup\"]/descendant::button[@class=\"close\"]";
     }
 
     async clickLoginLink(){
-        const link = await this.driver.findElement(By.xpath(this.xpathLoginLink));
-        link.click();
+        await this.driver.findElement(By.xpath(this.xpathLoginLink)).click();
+        await this.driver.wait(until.elementLocated(By.xpath(this.xpathLoginForm)),2000);        
     }
 
     async isLoggedOut(){
-       return await this.driver.findElement(By.xpath(this.xpathLoginLink)).isDisplayed();
+        try{
+            await this.driver.findElement(By.xpath(this.xpathLoginLink));
+            return true;
+        }catch(e){
+            return false;
+        }
+        // return await this.driver.findElement(By.xpath(this.xpathLoginLink)).isDisplayed();
     }
 
     async openApliancesMenu(){
-        //let apliancesLink = await  this.driver.wait(until.elementIsVisible(this.driver.findElement(By.xpath(xpathNavApliances))),2000);
-        const apliancesLink = await  this.driver.wait(until.elementIsVisible(By.xpath(xpathNavApliances)),2000);
+        const apliancesLink = await  this.driver.wait(until.elementLocated(By.xpath(this.xpathNavApliances)),2000);
         apliancesLink.click();
         await this.driver.wait(until.urlContains('https://demo.solomono.net/uk/pobutova-tehnika'),2000);
     }
 
+    async openLaptopSectionPage(){
+        await this.driver.findElement(By.xpath(this.xpathNavLaptops)).click();
+        await this.driver.wait(until.urlContains('https://demo.solomono.net/uk/noutbuki'),2000);
+    }
+
     async changeLanguage(){
         await this.driver.findElement(By.xpath(this.xpathSelectLanguage)).click();
-//        let selectLanguage = await this.driver.wait(until.elementIsVisible(driver.findElement(By.xpath(xpathUkrainianLanguage))),2000);
-        const selectLanguage = await this.driver.wait(until.elementIsVisible(By.xpath(this.xpathUkrainianLanguage)),2000);
+        const selectLanguage = await this.driver.wait(until.elementLocated(By.xpath(this.xpathUkrainianLanguage)),2000);
         selectLanguage.click();
-        //wait until
+        await this.driver.sleep(2000);
     }
 
     async changeCurrency(){
         await this.driver.findElement(By.xpath(this.xpathSelectCurrency)).click();
-        //let selectCurrency = await driver.wait(until.elementIsVisible(driver.findElement(By.xpath(xpathUahCurrency))),2000);
-        const selectCurrency = await this.driver.wait(until.elementIsVisible(By.xpath(this.xpathUahCurrency)),2000);
+        const selectCurrency = await this.driver.wait(until.elementLocated(By.xpath(this.xpathUahCurrency)),2000);
         selectCurrency.click();
-        //wait until
+        await this.driver.sleep(2000);
     }
 
     async openCart(){
         await this.driver.findElement(By.xpath(this.xpathOpenCartButton)).click();
+        await this.driver.wait(until.elementLocated(By.xpath(this.xpathCloseCartButton)),2000);
     }
 }

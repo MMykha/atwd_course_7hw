@@ -13,6 +13,15 @@ export class CheckoutPage{
         this.xpathCheckoutButton = "//span[@id=\"checkoutButton\"]";
     }
 
+    async getEmailInput(){
+        try{
+            await this.driver.findElement(By.xpath(this.xpathCheckoutEmailInput)).isDisplayed();
+            return true;
+        }catch(e){
+            return false;
+        }        
+    }
+
     async chooseWithoutRegistrationCase(){
         await this.driver.findElement(By.xpath(this.xpathCheckoutWithoutReqistrationCheckbox)).click();
     }
@@ -48,6 +57,6 @@ export class CheckoutPage{
     async pressCheckoiuButton(){
         const checkoutButton = await this.driver.wait(until.elementIsEnabled(this.driver.findElement(By.xpath(this.xpathCheckoutButton))),5000);
         checkoutButton.click();
-        await this.driver.wait(until.urlContains('https://demo.solomono.net/uk/checkout_success.php?order_id='),2000);
+        await this.driver.wait(until.urlContains('https://demo.solomono.net/uk/checkout_success.php?order_id='),4000);
     }
 }

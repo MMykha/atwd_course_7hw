@@ -14,23 +14,23 @@ export class ChangePasswPage{
     }
     
     async getNameOfForm(){
-        const paswwFoggotenForm = this.getPasswForgottenForm();
+        const paswwFoggotenForm = await this.driver.findElement(By.xpath(this.xpathPaswFogottenForm));
         const name = await paswwFoggotenForm.getAttribute("name");
         return  name;
     }
 
     async isEmailInputDisplayed(){
-        const paswwFoggotenForm = this.getPasswForgottenForm();
+        const paswwFoggotenForm = await this.driver.findElement(By.xpath(this.xpathPaswFogottenForm));;
         return await paswwFoggotenForm.findElement(By.xpath(this.xpathPaswFogottenInputEmail)).isDisplayed();
     }
 
     async isBackButtonDisplayed(){
-        const paswwFoggotenForm = this.getPasswForgottenForm();
+        const paswwFoggotenForm = await this.driver.findElement(By.xpath(this.xpathPaswFogottenForm));;
         return await paswwFoggotenForm.findElement(By.xpath(this.xpathPaswFogottenBackButton)).isDisplayed();
     }
 
     async isContinueButtonDispalyed(){
-        const paswwFoggotenForm = this.getPasswForgottenForm();
+        const paswwFoggotenForm = await this.driver.findElement(By.xpath(this.xpathPaswFogottenForm));;
         return await paswwFoggotenForm.findElement(By.xpath(this.xpathPaswFogottenContinueButton)).isDisplayed();
     }
 

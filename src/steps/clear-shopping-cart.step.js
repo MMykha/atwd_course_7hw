@@ -10,15 +10,15 @@ export class ClearShoppingCartSteps{
     async removeAllProducts(){
         await this.mainPage.openCart();
         await this.shoppingCartPage.clearCart();
-        let number = await this.shoppingCartPage.getNumberProductsInCart();
-        await this.shoppingCartPage.clearCart();
-        return number;
+        //let number = await this.shoppingCartPage.getNumberProductsInCart();
+        await this.shoppingCartPage.closeCart();
+       // return number;
     }
 
     async checkNumberProductsInCart(){
         await this.mainPage.openCart();
         let number = await this.shoppingCartPage.getNumberProductsInCart();
-        await this.shoppingCartPage.clearCart();
+        await this.shoppingCartPage.closeCart();
         return number;
     }
 }

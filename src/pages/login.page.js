@@ -10,40 +10,30 @@ export class LoginPage {
         this.xpathRegisterLink = "//form[@class=\"form_enter\" and @name='login']/following-sibling::a[@class=\"registration\"]";
         this.xpathForgetPasswordLink = "//form[@class='form_enter']/a[@class='forget_password']";        
     }
-    
-    async isLoginFormDisplayed(){
-        return await this.driver.wait(until.elementIsDisabled(this.driver.findElement(By.xpath(this.xpathLoginForm))), 2000);
-    }
 
     async isEmailInputDisplayed(){
-        const loginForm = this.isLoginButtonDisplayed();
-        return await loginForm.findElement(By.xpath(this.xpathLoginInput)).isDisplayed();
+        return await this.driver.findElement(By.xpath(this.xpathLoginInput)).isDisplayed();
     }
 
     async isPasswordInputDisplayed(){
-        const loginForm = this.isLoginButtonDisplayed();
-        return await loginForm.findElement(By.xpath(this.xpathPasswordInput)).isDisplayed();     
+        return await this.driver.findElement(By.xpath(this.xpathPasswordInput)).isDisplayed();     
     }
 
     async isLoginButtonDisplayed(){
-        const loginForm = this.isLoginButtonDisplayed();
-        return await loginForm.findElement(By.xpath(this.xpathLoginButton)).isDisplayed();   
+        return await this.driver.findElement(By.xpath(this.xpathLoginButton)).isDisplayed();   
 
     }
 
     async isForgetPasswordLinkDisplayed(){
-        const loginForm = this.isLoginButtonDisplayed();
-        return await loginForm.findElement(By.xpath(this.xpathForgetPasswordLink)).isDisplayed();
+        return await this.driver.findElement(By.xpath(this.xpathForgetPasswordLink)).isDisplayed();
     }
 
     async isRegisterLinkDisplayed(){
-        const loginForm = this.isLoginButtonDisplayed();
-        return await loginForm.findElement(By.xpath(this.xpathRegisterLink)).isDisplayed();
+        return await this.driver.findElement(By.xpath(this.xpathRegisterLink)).isDisplayed();
     }
 
     async getNameOfForm(){
-        const loginForm = this.isLoginButtonDisplayed();
-        return await loginForm.getAttribute("name");
+        return await this.driver.getAttribute("name");
     }
 
     async fillEmailInput(email){

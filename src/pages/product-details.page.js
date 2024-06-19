@@ -22,6 +22,6 @@ export class ProductDetailsPage{
 
     async buyProduct(){
         await this.driver.findElement(By.xpath(this.xpathProductBuyButton)).click();
-        await this.driver.wait(until.elementIsVisible(this.driver.findElement(By.xpath(this.xpathCart))),3000);
+        await this.driver.wait(until.elementLocated(By.xpath(this.xpathCart)),3000);
     }
 }

@@ -23,8 +23,7 @@ export class ShoppingCartPage {
     }
 
     async getNumberProductsInCart(){
-        const cart = this.getCart();
-        const result =  await cart.findElements(By.xpath(this.xpathProductInCart));
+        const result =  await this.driver.findElements(By.xpath(this.xpathProductInCart));
         return result.length;
     }
 

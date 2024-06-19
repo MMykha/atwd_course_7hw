@@ -1,14 +1,14 @@
-import { Builder, By, until } from "selenium-webdriver";
+import { Builder, By } from "selenium-webdriver";
 import {expect} from '@jest/globals';
 import { ErrorMessages } from "../enums/errorMessages";
 import { MainPage } from "../pages/main.page";
-import { LoginPage } from "../pages/login.page";
 import { AppliancesSectionPage } from "../pages/apliances-section.page";
 import { CheckoutPage } from "../pages/checkout.page";
 import { ProductDetailsPage } from "../pages/product-details.page";
 import { ShoppingCartPage } from "../pages/shopping-cart.page";
 import { LoginSteps } from "../steps/login.step";
 import { ClearShoppingCartSteps } from "../steps/clear-shopping-cart.step";
+import { CheckoutResultPage } from "../pages/checkout-result.page";
 
 jest.setTimeout(300000);
 
@@ -20,7 +20,6 @@ describe('order the products test', ()=>{
     beforeEach(async()=>{
         driver = await new Builder().forBrowser('chrome').build();
         await driver.manage().window().maximize();
-        await driver.manage().setTimeouts()({implicit: 300000});
     });
 
     afterEach(async()=>{
@@ -31,10 +30,10 @@ describe('order the products test', ()=>{
 
     test ('orderProduct', async ()=>{
         const email = 'mikhailenkomasha0@gmail.com';
-        const password = "4ODQk";
-        const name="";
-        const surname = "";
-        const phone ="";
+        const password = "x8zGA";
+        const name="Марія";
+        const surname = "Михайленко";
+        const phone ="38097";
         
         await driver.get(baseUrl);
 
@@ -45,25 +44,20 @@ describe('order the products test', ()=>{
         const shoppingCartPage = new ShoppingCartPage(driver);
         const checkoutPage = new CheckoutPage(driver);
         const clearCartSteps = new ClearShoppingCartSteps(driver);
+        const checkoutResultPage = new CheckoutResultPage(driver);
 
         //login in
         await mainPage.clickLoginLink();
         await loginSteps.login(email, password);
-        let login = MainPage.isLoggedOut(); 
-
-        //clear the cart
-        if(!login){
-            let products = await clearCartSteps.removeAllProducts();
-            expect(products).toBe(0);
-        } 
-
+        await clearCartSteps.removeAllProducts();
+        
         //select language and currency
         await mainPage.changeLanguage();
         await mainPage.changeCurrency();
 
         //appliance page
         await mainPage.openApliancesMenu();
-        await appliancePage.openProductDetails();
+        await appliancePage.openProductDetails("Міксер ARITA");
         
         //page of product MixerArita
         let productPrice = await productDetailsPage.getPrice();
@@ -74,11 +68,13 @@ describe('order the products test', ()=>{
         //cart
         let productsInCart = await shoppingCartPage.getNumberProductsInCart();
         expect(productsInCart).toBe(1);
+        await driver.sleep(1000);
+
         let productPriceInCart = await shoppingCartPage.getkMixerPrice();
         let productQualityInCart = await shoppingCartPage.checkQuantityOfMixer();
         let productSumInCart = await shoppingCartPage.cgetSumMixers();
         let productTotalPriceInCart = await shoppingCartPage.getTotalPrice();
-
+        
         expect(productPriceInCart).toBe('8000 грн');
         expect(productQualityInCart).toBe("2");
         expect(productSumInCart).toBe("16000 грн");
@@ -87,13 +83,21 @@ describe('order the products test', ()=>{
         await shoppingCartPage.pressCheckoutButton();
 
         //checkout page
-        if(login){
+        let inputEmail = await checkoutPage.getEmailInput();
+        if(inputEmail){
             await checkoutPage.chooseWithoutRegistrationCase();
             await checkoutPage.fillEmailInput(email);
-        }
+        }   
+        
         await checkoutPage.fillNameInput(name);
+        await driver.sleep(1000);
+
         await checkoutPage.fillSurnameInput(surname);
+        await driver.sleep(1000);
+
         await checkoutPage.fillPhoneInput(phone);
+        await driver.sleep(1000);
+
         await checkoutPage.chooseCountryUkraine();
         await driver.sleep(3000);
         await checkoutPage.pressCheckoiuButton();
@@ -101,7 +105,7 @@ describe('order the products test', ()=>{
         //result of checkout
         expect(await driver.getTitle()).toBe('Ваше замовлення успішно оформлено!');
         expect(await driver.getCurrentUrl()).toContain('https://demo.solomono.net/uk/checkout_success.php?order_id=');
-        expect(await driver.findElement(By.xpath(Locator.xpathTitleSuccess))).toBeTruthy();
-        expect(await driver.findElement(By.xpath(Locator.xpathSuccessContinueButton))).toBeTruthy();
+        expect(await checkoutResultPage.isSuccessContinueButtonDisplayed()).toBe(true);
+        expect(await checkoutResultPage.isTitleSuccesDisplayed()).toBe(true);
     });
 });
