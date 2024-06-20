@@ -16,7 +16,7 @@ export class LaptopSctionPage{
         const checkBoxPrice1 = await this.driver.findElement(By.xpath(this.xpathPriceRangeInput1));
         checkBoxPrice1.clear();
         checkBoxPrice1.sendKeys(price1);
-        const checkBoxPrice2 =await this.driver.findElement(By.xpath(this.xpathPriceRangeInput1));
+        const checkBoxPrice2 =await this.driver.findElement(By.xpath(this.xpathPriceRangeInput2));
         checkBoxPrice2.clear();
         checkBoxPrice2.sendKeys(price2);
         await this.driver.wait(until.urlContains('rmax='+price2),2000);
@@ -34,12 +34,18 @@ export class LaptopSctionPage{
 
     //get array of all product price on the page
     async getAllProductPrices(){
-        return this.driver.findElements(By.xpath(this.xpathPricesProduct)).then((res) => {
+        const elements = this.driver.findElements(By.xpath(this.xpathPricesProduct)).then((el)=>{
+            
+        });
+        return elements[0].getText();;
+        /*.then((res) => {
+            console.log(res);
             res.forEach(element => {
                 element = element.getText();
             });
+            console.log(res);
             return res;
-        });
+        });*/
     }
 
     //select brend
@@ -52,6 +58,7 @@ export class LaptopSctionPage{
         let result = this.driver.findElements(By.xpath(this.xpathProductNames)).then((res) => {
             res.forEach(element => {
                 element = element.getText();
+                console.log(element);
             });
             return res;
         });
