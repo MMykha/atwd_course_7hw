@@ -1,8 +1,12 @@
-import {By, WebDriver, until} from 'selenium-webdriver';
+import {By, until} from 'selenium-webdriver';
+import { BasePage } from './base.page';
 
-export class MainPage{
-    constructor(driver){
-        this.driver=driver;
+export class MainPage extends BasePage{
+    constructor(){
+        super();
+
+        this.baseUrl = "https://demo.solomono.net/";
+        
         this.xpathLoginLink = "//div[@id='kabinet']/div/div/a[@class='enter_link']";
         this.xpathLoginForm = '//form[contains(@class,"form_enter")]';
         this.xpathNavApliances = "//div[@id=\"#all-categories\"]/descendant::a[text()=\"Побутова техніка\"]";
@@ -27,7 +31,6 @@ export class MainPage{
         }catch(e){
             return false;
         }
-        // return await this.driver.findElement(By.xpath(this.xpathLoginLink)).isDisplayed();
     }
 
     async openApliancesMenu(){

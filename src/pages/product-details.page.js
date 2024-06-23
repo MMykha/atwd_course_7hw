@@ -1,8 +1,10 @@
 import {By, until} from 'selenium-webdriver';
+import { BasePage } from './base.page';
 
-export class ProductDetailsPage{
-    constructor(driver){
-        this.driver = driver;
+export class ProductDetailsPage extends BasePage{
+    constructor(){
+        super();
+        
         this.xpathProductPrice = "//span[@id=\"summ_price\"]/span";
         this.xpathProductQuantity = "//span[@class=\"quantity-selector-mask\"]/input";
         this.xpathProductBuyButton = "//div[@id=\"r_buy_intovar\"]/button";
@@ -22,6 +24,6 @@ export class ProductDetailsPage{
 
     async buyProduct(){
         await this.driver.findElement(By.xpath(this.xpathProductBuyButton)).click();
-        await this.driver.wait(until.elementLocated(By.xpath(this.xpathCart)),3000);
+        await this.driver.wait(until.elementLocated(By.xpath(this.xpathCart)),5000);
     }
 }

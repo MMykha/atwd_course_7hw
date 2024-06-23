@@ -1,6 +1,4 @@
-import { Builder, By } from "selenium-webdriver";
-import {expect} from '@jest/globals';
-import { ErrorMessages } from "../enums/errorMessages";
+import { expect } from '@jest/globals';
 import { MainPage } from "../pages/main.page";
 import { AppliancesSectionPage } from "../pages/apliances-section.page";
 import { CheckoutPage } from "../pages/checkout.page";
@@ -10,45 +8,29 @@ import { LoginSteps } from "../steps/login.step";
 import { ClearShoppingCartSteps } from "../steps/clear-shopping-cart.step";
 import { CheckoutResultPage } from "../pages/checkout-result.page";
 
-jest.setTimeout(300000);
-
-let driver;
-
 describe('order the products test', ()=>{
-    const baseUrl = 'https://demo.solomono.net';
-
-    beforeEach(async()=>{
-        driver = await new Builder().forBrowser('chrome').build();
-        await driver.manage().window().maximize();
-    });
-
-    afterEach(async()=>{
-        if(driver){
-            await driver.quit();
-        }
-    });
 
     test ('orderProduct', async ()=>{
         const email = 'mikhailenkomasha0@gmail.com';
-        const password = "x8zGA";
-        const name="Марія";
+        const password = "V2iRZ";
+        const name = "Марія";
         const surname = "Михайленко";
         const phone ="38097";
         
-        await driver.get(baseUrl);
-
-        const mainPage = new MainPage(driver);
-        const loginSteps = new LoginSteps(driver);
-        const appliancePage = new AppliancesSectionPage(driver);
-        const productDetailsPage = new ProductDetailsPage(driver);
-        const shoppingCartPage = new ShoppingCartPage(driver);
-        const checkoutPage = new CheckoutPage(driver);
-        const clearCartSteps = new ClearShoppingCartSteps(driver);
-        const checkoutResultPage = new CheckoutResultPage(driver);
+        const mainPage = new MainPage();
+        const loginSteps = new LoginSteps();
+        const appliancePage = new AppliancesSectionPage();
+        const productDetailsPage = new ProductDetailsPage();
+        const shoppingCartPage = new ShoppingCartPage();
+        const checkoutPage = new CheckoutPage();
+        const clearCartSteps = new ClearShoppingCartSteps();
+        const checkoutResultPage = new CheckoutResultPage();
 
         //login in
+        await mainPage.open();
         await mainPage.clickLoginLink();
         await loginSteps.login(email, password);
+        await mainPage.sleep(1000);
         await clearCartSteps.removeAllProducts();
         
         //select language and currency
@@ -68,7 +50,7 @@ describe('order the products test', ()=>{
         //cart
         let productsInCart = await shoppingCartPage.getNumberProductsInCart();
         expect(productsInCart).toBe(1);
-        await driver.sleep(1000);
+        await shoppingCartPage.sleep(1000);
 
         let productPriceInCart = await shoppingCartPage.getkMixerPrice();
         let productQualityInCart = await shoppingCartPage.checkQuantityOfMixer();
@@ -90,21 +72,21 @@ describe('order the products test', ()=>{
         }   
         
         await checkoutPage.fillNameInput(name);
-        await driver.sleep(1000);
+        await checkoutPage.sleep(1000);
 
         await checkoutPage.fillSurnameInput(surname);
-        await driver.sleep(1000);
+        await checkoutPage.sleep(1000);
 
         await checkoutPage.fillPhoneInput(phone);
-        await driver.sleep(1000);
+        await checkoutPage.sleep(1000);
 
         await checkoutPage.chooseCountryUkraine();
-        await driver.sleep(3000);
+        await checkoutPage.sleep(3000);
         await checkoutPage.pressCheckoiuButton();
         
         //result of checkout
-        expect(await driver.getTitle()).toBe('Ваше замовлення успішно оформлено!');
-        expect(await driver.getCurrentUrl()).toContain('https://demo.solomono.net/uk/checkout_success.php?order_id=');
+        expect(await checkoutResultPage.getPageTitle()).toBe('Ваше замовлення успішно оформлено!');
+        expect(await checkoutResultPage.getPageURL()).toContain('https://demo.solomono.net/uk/checkout_success.php?order_id=');
         expect(await checkoutResultPage.isSuccessContinueButtonDisplayed()).toBe(true);
         expect(await checkoutResultPage.isTitleSuccesDisplayed()).toBe(true);
     });

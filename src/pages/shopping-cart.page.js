@@ -1,8 +1,10 @@
 import {By, until} from 'selenium-webdriver';
+import { BasePage } from './base.page';
 
-export class ShoppingCartPage {
-    constructor(driver){
-        this.driver = driver;
+export class ShoppingCartPage extends BasePage{
+    constructor(){
+        super();
+        
         this.xpathCart = "//div[@id=\"cartContent-page\"]";
         this.xpathProductInCart = "//div[@id=\"cartContent-page\"]/div[contains(@class, \"cartContent_body\")]";
         this.xpathProductPriceInCart = "//div[@id=\"cartContent-page\"]/descendant::div[contains(@class,\"col-xs-3 product_price\") and text()=\"8000 грн\"]";
@@ -51,10 +53,10 @@ export class ShoppingCartPage {
     async clearCart(){
         let cartCheck = await this.driver.wait(until.elementIsVisible(this.driver.findElement(By.xpath(this.xpathCloseCartButton))),3000);
         let productsInCart =  await cartCheck.findElements(By.xpath(this.xpathDeleteProductFromCartButton));
-                for(let i = productsInCart.length-1; i >= 0; i--){
-                    productsInCart[i].click();
-                    await this.driver.sleep(2000);
-                }       
+            for(let i = productsInCart.length-1; i >= 0; i--){
+                productsInCart[i].click();
+                await this.driver.sleep(2000);
+            }       
     }
 
     async closeCart(){

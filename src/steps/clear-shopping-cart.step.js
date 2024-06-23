@@ -1,18 +1,17 @@
-import { MainPage } from "../pages/main.page";
-import { ShoppingCartPage } from "../pages/shopping-cart.page";
+import { BaseStep } from "./base.steps";
 
-export class ClearShoppingCartSteps{
-    constructor(driver){
-        this.shoppingCartPage=new ShoppingCartPage(driver);
-        this.mainPage = new MainPage(driver);
+export class ClearShoppingCartSteps extends BaseStep{
+    constructor(){
+        super();
     }
 
     async removeAllProducts(){
         await this.mainPage.openCart();
-        await this.shoppingCartPage.clearCart();
-        //let number = await this.shoppingCartPage.getNumberProductsInCart();
+        let number = await this.shoppingCartPage.getNumberProductsInCart();
+        if(number>0){
+            await this.shoppingCartPage.clearCart();
+        }        
         await this.shoppingCartPage.closeCart();
-       // return number;
     }
 
     async checkNumberProductsInCart(){

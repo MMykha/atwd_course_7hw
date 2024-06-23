@@ -1,80 +1,54 @@
-
-//вводити ціну 100-2000
-//ентер
-//знайти помилку
-//тест має зламатися
-//масив  цін усіх продуктів
-// і значення не менше 100 і не більше 2000
-
-//laptop-section
-//ввести  мінімальну 
-//ввести максимальну ціну
-// попрацювати з брендами
-//в enum можна винести значенння фільтра
-
-import { Builder } from "selenium-webdriver";
+import {expect, test} from '@jest/globals';
 import { MainPage } from "../pages/main.page"; 
 import { LaptopSctionPage } from "../pages/laptop-section.page";
 
-jest.setTimeout(300000);
-
-let driver;
-
 describe('laptop filters tests', ()=>{
-    const baseUrl = 'https://demo.solomono.net';
-
-    beforeEach(async()=>{
-        driver = await new Builder().forBrowser('chrome').build();
-        await driver.manage().window().maximize();
-    });
-
-    afterEach(async()=>{
-        if(driver){
-            await driver.quit();
-        }
-    });
-
+    
     test('price filter test', async()=>{
-        const mainPage = new MainPage(driver);
-        const laptopSectionPage = new LaptopSctionPage(driver);
+        const mainPage = new MainPage();
+        const laptopSectionPage = new LaptopSctionPage();
         const minPrice = 100;
-        const maxPrice = 40000;
-
-        await driver.get(baseUrl);
+        const maxPrice = 2000;
 
         //main page
+        await mainPage.open();
         await mainPage.changeLanguage();
-        await mainPage.changeCurrency();
         await mainPage.openLaptopSectionPage();
        
         //laptop section page
         await laptopSectionPage.fillPricesFilter(minPrice,maxPrice);
+        await laptopSectionPage.sleep(4000);
         await laptopSectionPage.pressShowMoreButton();
-        let productPrices = laptopSectionPage.getAllProductPrices();
-        console.log("price "+productPrices)
-        for(let i = 0; i<productPrices.length; i++){
-            expect(productPrices[i].getText()>maxPrice).toBe(true);
-            expect(productPrices[i].getText()<minPrice).toBe(false);
+        await laptopSectionPage.sleep(2000);
+        let productPrices = await laptopSectionPage.getAllProductPrices();
+        for (let i = 0; i< productPrices.length; i++){
+            let price = await productPrices[i].getText();
+            price = price.slice(1);
+            price = Number(price);
+            expect(price>maxPrice).toBe(false);
+            expect(price<minPrice).toBe(false);
         }
     });
 
     test('brand filter test',async()=>{
-        const mainPage = new MainPage(driver);
-        const laptopSectionPage = new LaptopSctionPage(driver);
+        const mainPage = new MainPage();
+        const laptopSectionPage = new LaptopSctionPage();
         const brandName = 'Lenovo';
-
-        await driver.get(baseUrl);
         
         //main page
+        await mainPage.open();
         await mainPage.changeLanguage();
-        await mainPage.changeCurrency();
         await mainPage.openLaptopSectionPage();
 
         //laptop section page
         await laptopSectionPage.selectBrandFilter(brandName);
+        await laptopSectionPage.sleep(4000);
+        await laptopSectionPage.pressShowMoreButton();
+        await laptopSectionPage.sleep(2000);
         let productNames = await laptopSectionPage.getAllProductNames();
-        // productNames.forEach((elem)=>{
-        //     expect(elem.includes(brandName)).toBeTruthy();
-        // });
+        for (let i = 0; i< productNames.length; i++){
+            let name = await productNames[i].getText();
+            expect(name.includes(brandName)).toBe(true);
+        }
     });
 });

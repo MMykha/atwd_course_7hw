@@ -1,8 +1,9 @@
 import {By, until} from 'selenium-webdriver';
+import { BasePage } from './base.page';
 
-export class AppliancesSectionPage{
-    constructor(driver){
-        this.driver = driver;
+export class AppliancesSectionPage extends BasePage{
+    constructor(){
+        super();
     }
     
     async openProductDetails(productName){

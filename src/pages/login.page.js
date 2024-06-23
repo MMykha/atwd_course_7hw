@@ -1,8 +1,10 @@
 import {By, until} from 'selenium-webdriver';
+import { BasePage } from './base.page';
 
-export class LoginPage {
-    constructor(driver){
-        this.driver = driver;
+export class LoginPage extends BasePage {
+    constructor(){
+        super();
+        
         this.xpathLoginForm = '//form[contains(@class,"form_enter")]';
         this.xpathLoginInput = "//form[@class=\"form_enter\"and@name=\"login\"]/input[@class=\"form-control name_enter\"and@type=\"email\"]";
         this.xpathPasswordInput = "//form[@class=\"form_enter\"and@name=\"login\"]/input[@class=\"form-control password_enter\"and@type=\"password\"]";
@@ -20,8 +22,7 @@ export class LoginPage {
     }
 
     async isLoginButtonDisplayed(){
-        return await this.driver.findElement(By.xpath(this.xpathLoginButton)).isDisplayed();   
-
+        return await this.driver.findElement(By.xpath(this.xpathLoginButton)).isDisplayed(); 
     }
 
     async isForgetPasswordLinkDisplayed(){

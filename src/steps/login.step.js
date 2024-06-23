@@ -1,9 +1,8 @@
-import { LoginPage } from "../pages/login.page";
+import { BaseStep } from "./base.steps";
 
-export class LoginSteps{
-    constructor(driver){
-        this.loginPage = new LoginPage(driver);
-        
+export class LoginSteps extends BaseStep{
+    constructor(){
+        super();       
     }
 
     async login(userEmail, userPassword){

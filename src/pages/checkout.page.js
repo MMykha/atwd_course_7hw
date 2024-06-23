@@ -1,8 +1,10 @@
 import {By, until} from 'selenium-webdriver';
+import { BasePage } from './base.page';
 
-export class CheckoutPage{
-    constructor(driver){
-        this.driver=driver;
+export class CheckoutPage extends BasePage{
+    constructor(){
+        super();
+        
         this.xpathCheckoutNameInput = "//div[@id=\"shippingAddress\"]/descendant::input[@name=\"shipping_firstname\"]"
         this.xpathCheckoutSurnameInput = "//div[@id=\"shippingAddress\"]/descendant::input[@name=\"shipping_lastname\"]";
         this.xpathCheckoutEmailInput = "//div[@id=\"shippingAddress\"]/descendant::input[@name=\"billing_email_address\"]";
@@ -27,7 +29,7 @@ export class CheckoutPage{
     }
 
     async fillEmailInput(email){
-        await this.driver.findElement(By.xpath(this.xpathCheckoutEmailInput)).sendKeys(CheckoutData.email);
+        await this.driver.findElement(By.xpath(this.xpathCheckoutEmailInput)).sendKeys(email);
     }
 
     async fillNameInput(name){

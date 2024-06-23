@@ -1,8 +1,10 @@
 import {By, until} from 'selenium-webdriver';
+import { BasePage } from './base.page';
 
-export class ChangePasswPage{
-    constructor(driver){
-        this.driver = driver;
+export class ChangePasswPage extends BasePage{
+    constructor(){
+        super();
+        
         this.xpathPaswFogottenForm = "//form[@name=\"password_forgotten\"]";
         this.xpathPaswFogottenInputEmail = "//input[@id=\"inputEmail_address\"]";
         this.xpathPaswFogottenBackButton = "//form[@name=\"password_forgotten\"]/descendant::a[contains(@class,\"btn btn-primary\")]";
