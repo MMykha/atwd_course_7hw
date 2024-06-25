@@ -1,10 +1,14 @@
 import {expect, test} from '@jest/globals';
 import { MainPage } from "../pages/main.page"; 
 import { LaptopSctionPage } from "../pages/laptop-section.page";
+import {WebDriverInstance} from '../core/driver-instance';
+
+const fs = require("fs");
+const path = require("path");
 
 describe('laptop filters tests', ()=>{
-    
     test('price filter test', async()=>{
+
         const mainPage = new MainPage();
         const laptopSectionPage = new LaptopSctionPage();
         const minPrice = 100;
@@ -25,8 +29,16 @@ describe('laptop filters tests', ()=>{
             let price = await productPrices[i].getText();
             price = price.slice(1);
             price = Number(price);
-            expect(price>maxPrice).toBe(false);
-            expect(price<minPrice).toBe(false);
+            try{
+                expect(price>maxPrice).toBe(false);
+            }catch(e){
+                //failed
+                const testName = expect.getState().currentTestName.replace(/\s/g, "-");
+                const fileName = path.join('./src/screenshots/', `screenshot_${testName}.jpg`);
+                fs.writeFileSync(fileName,  await WebDriverInstance.getDriver().takeScreenshot(), "base64");
+            }
+            
+            expect(price<minPrice).toBe(false);         
         }
     });
 

@@ -1,6 +1,7 @@
 import {beforeEach} from '@jest/globals';
-import {WebDriverFactory} from '../core/factory'
-import {WebDriverInstance} from '../core/driver-instance'
+import {WebDriverFactory} from '../core/factory';
+import {WebDriverInstance} from '../core/driver-instance';
+
 
 beforeEach(async () =>{
     const driver = await new WebDriverFactory().getDriver("chrome");

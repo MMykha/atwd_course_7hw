@@ -23,7 +23,7 @@ export class WebDriverFactory{
     async getChromeDriver() {
         let options = new ChromeOptions();
         const driver = await new Builder()
-           // .setChromeOptions(options)
+            .setChromeOptions(options)
             .forBrowser("chrome")
             .build();        
         return driver;
