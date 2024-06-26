@@ -15,6 +15,13 @@ export class LaptopSctionPage extends BasePage{
         this.xpathShowAllBrandFiltersButton ='//div[@id="sidebar-left"]/descendant::button[contains(@class, "btn-filter-group-brands")][text()="Показати всі"]';
     }
 
+    //open laptop product
+    async openLaptopDetails(productName){
+        //Apple MacBook Air
+        await this.driver.findElement(By.xpath(`//div[@id=\"r_spisok\"]/descendant::a[text()=\"${productName}\"]`)).click();
+        await this.driver.wait(until.urlContains('https://demo.solomono.net/apple-macbook-air/p-543.html'));
+    }
+
     //input price range
     async fillPricesFilter(price1,price2){
         const checkBoxPrice1 = await this.driver.findElement(By.xpath(this.xpathPriceRangeInput1));

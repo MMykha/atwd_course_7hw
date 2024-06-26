@@ -7,6 +7,7 @@ import { CheckoutResultPage } from "../pages/checkout-result.page";
 import { LaptopSctionPage } from "../pages/laptop-section.page";
 import { ProductDetailsPage } from "../pages/product-details.page";
 import { ShoppingCartPage } from "../pages/shopping-cart.page";
+import { LaptopDetailsPage } from "../pages/laptop-details.page";
 
 export class BaseStep {
     constructor(){
@@ -19,6 +20,7 @@ export class BaseStep {
         this.laptopSectionPage = new LaptopSctionPage();
         this.productDetailsPage = new ProductDetailsPage();
         this.shoppingCartPage = new ShoppingCartPage();
+        this.laptopDetailsPage = new LaptopDetailsPage();
     }
 
     async commonStep(){
