@@ -1,4 +1,4 @@
-import {By, until} from 'selenium-webdriver';
+import { By, until } from 'selenium-webdriver';
 import { BasePage } from './base.page';
 
 export class LaptopSctionPage extends BasePage{
@@ -17,9 +17,8 @@ export class LaptopSctionPage extends BasePage{
 
     //open laptop product
     async openLaptopDetails(productName){
-        //Apple MacBook Air
         await this.driver.findElement(By.xpath(`//div[@id=\"r_spisok\"]/descendant::a[text()=\"${productName}\"]`)).click();
-        await this.driver.wait(until.urlContains('https://demo.solomono.net/apple-macbook-air/p-543.html'));
+        await this.driver.wait(until.urlContains('https://demo.solomono.net/uk/apple-macbook-air/p-543.html'));
     }
 
     //input price range
@@ -45,8 +44,7 @@ export class LaptopSctionPage extends BasePage{
 
     //get array of all product price on the page
     async getAllProductPrices(){
-        let elements = await this.driver.findElements(By.xpath(this.xpathPricesProduct))
-        return elements;
+        return await this.driver.findElements(By.xpath(this.xpathPricesProduct));
     }
 
     //select brend
@@ -58,8 +56,7 @@ export class LaptopSctionPage extends BasePage{
 
     //get array of all product names on the page
     async getAllProductNames(){
-        let result = await this.driver.findElements(By.xpath(this.xpathProductNames));
-        return result;
+        return await this.driver.findElements(By.xpath(this.xpathProductNames));
     }
 
     //get number of showen products in order to chossen filter

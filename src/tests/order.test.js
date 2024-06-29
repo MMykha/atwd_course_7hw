@@ -85,7 +85,7 @@ describe('order the products test', ()=>{
             await checkoutPage.chooseWithoutRegistrationCase();
             await checkoutPage.fillEmailInput(email);
         }else{
-            log.info(`Order products as unregistered user with data:\n
+            log.info(`Order products as registered user with data:\n
                 name: "${name}"\n
                 surname: "${surname}"\n
                 phone: "${phone}"\n

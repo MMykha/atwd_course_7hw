@@ -12,8 +12,7 @@ export class ProductDetailsPage extends BasePage{
     }
 
     async getPrice(){
-        const productPrice = await this.driver.findElement(By.xpath(this.xpathProductPrice)).getText();
-        return productPrice;
+        return await this.driver.findElement(By.xpath(this.xpathProductPrice)).getText();;
     }
 
     async setQuantity(quantity){

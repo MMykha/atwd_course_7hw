@@ -39,6 +39,7 @@ export class LaptopDetailsPage extends BasePage{
     }
 
     async getProductDescription(){
-        return await this.driver.findElement(By.xpath(this.xpathProductDescription)).getText();
+        const description = await this.driver.findElement(By.xpath(this.xpathProductDescription)).getText();
+        return description.trim();
     }
 }

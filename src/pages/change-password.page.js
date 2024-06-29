@@ -17,8 +17,7 @@ export class ChangePasswPage extends BasePage{
     
     async getNameOfForm(){
         const paswwFoggotenForm = await this.driver.findElement(By.xpath(this.xpathPaswFogottenForm));
-        const name = await paswwFoggotenForm.getAttribute("name");
-        return  name;
+        return  await paswwFoggotenForm.getAttribute("name");
     }
 
     async isEmailInputDisplayed(){

@@ -1,4 +1,4 @@
-import {By} from 'selenium-webdriver';
+import { By } from 'selenium-webdriver';
 import { BasePage } from './base.page';
 
 export class CheckoutResultPage extends BasePage{

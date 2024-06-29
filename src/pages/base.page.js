@@ -5,10 +5,6 @@ export class BasePage{
         this.driver = WebDriverInstance.getDriver();
     }
 
-    async getDriver(){
-        this.driver = WebDriverInstance.getDriver();
-    }
-
     async open() {
         this.driver.get(this.baseUrl);
     }

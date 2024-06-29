@@ -1,4 +1,4 @@
-import {By, until} from 'selenium-webdriver';
+import { By, until } from 'selenium-webdriver';
 import { BasePage } from './base.page';
 
 export class MainPage extends BasePage{
@@ -9,13 +9,13 @@ export class MainPage extends BasePage{
         
         this.xpathLoginLink = "//div[@id='kabinet']/div/div/a[@class='enter_link']";
         this.xpathLoginForm = '//form[contains(@class,"form_enter")]';
-        this.xpathNavApliances = "//div[@id=\"#all-categories\"]/descendant::a[text()=\"Побутова техніка\"]";
+        this.xpathNavApliances = "//div[@id=\"#all-categories\"]/descendant::a[text()=\"Appliances\"]";
         this.xpathSelectLanguage = "//div[@class=\"language_select\"]//button[@class=\"language-dropdown-button\"]";
         this.xpathSelectCurrency = "//nav[@class=\"currency_select\"]/descendant::div[contains(@class,'selectize-input items')]";
         this.xpathUkrainianLanguage = "//div[contains(@class,\"language_select\")]/ul/li/a[contains(text(),\"Українська\")]";
         this.xpathUahCurrency = "//nav[@class=\"currency_select\"]/descendant::div[contains(@class,\"selectize-dropdown-content\")]/div[@data-value=\"UAH\"]";
         this.xpathOpenCartButton = "//div[@id=\"shopping_cart_box\"]/div/div[@class=\"img_basket popup_cart\"]/*";
-        this.xpathNavLaptops = "//div[@id=\"#all-categories\"]/descendant::a[text()=\"Ноутбуки\"]";
+        this.xpathNavLaptops = "//div[@id=\"#all-categories\"]/descendant::a[text()=\"Laptops\"]";
         this.xpathCloseCartButton = "//div[@id=\"modal_cart_popup\"]/descendant::button[@class=\"close\"]";
     }
 

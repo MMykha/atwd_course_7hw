@@ -26,10 +26,11 @@ describe('product characteristics tests', ()=>{
         await mainPage.open();
         log.info('Change language on "Українська"');
         await mainPage.changeLanguage();
+        await mainPage.sleep(2000);
         await mainPage.openLaptopSectionPage();
-        await laptopSectionPage.openLaptopDetails();
+        await laptopSectionPage.openLaptopDetails("Apple MacBook Air");
         
-        //Assert
+        //Assert               
         expect(await laptopDetailsPage.getProductName()).toBe(credentials.product_name);
         expect(await laptopDetailsPage.getProductPrice()).toBe(credentials.product_price);
         expect(await laptopDetailsPage.getProductColor()).toBe(credentials.product_color);

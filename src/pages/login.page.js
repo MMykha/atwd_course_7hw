@@ -1,4 +1,4 @@
-import {By, until} from 'selenium-webdriver';
+import { By, until } from 'selenium-webdriver';
 import { BasePage } from './base.page';
 
 export class LoginPage extends BasePage {
